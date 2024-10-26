@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OEIS A002489 N=2</title> <!-- Tab label of a Web Browser -->
+  <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    .graphs-layout-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Creates responsive columns */
+      gap: 10px; /* Optional: Adds space between items */
+    } 
+    .legend-graph-container {
+        display: block;
+        width: 200px;
+        /* 
+          DO NOT use 
+        text-align: center;
+          in a parent div that contains a Cytoscape graph, see: https://stackoverflow.com/a/55872886
+        */
+        border: 1px solid #ccc;
+    }
+    .legend {
+        font-size: 14px;
+        color: #555;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+    .graph-container {
+        width: 200px;
+        height: 200px;
+        border: 1px solid #ccc;
+    }
+
+    .legend .x {
+      color: #FF5733;
+    }
+
+    .legend .y {
+      color: #33FF57;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align: center;">OEIS A002489 N=2</h2>
+  <h3 style="text-align: center;">The number of closed binary operations on a set of oder N.</h3>
+  <div class="graphs-layout-container">
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 1: <br><br>
+      
+        <div>
+          [[<span class="x">0</span>,<span class="x">0</span>], [<span class="x">0</span>,<span class="x">0</span>]]
+        </div>
+        <div>
+          [[<span class="x">x</span>,<span class="x">x</span>], [<span class="x">x</span>,<span class="x">x</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="x">x</span> <span class="x">x</span></div>
+        <div><span class="y">y</span> <span class="x">x</span> <span class="x">x</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+      </div>
+      <div id="graph1" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 2: <br><br>
+      
+        <div>
+          [[<span class="x">0</span>,<span class="x">0</span>], [<span class="x">0</span>,<span class="y">1</span>]]
+        </div>
+        <div>
+          [[<span class="x">x</span>,<span class="x">x</span>], [<span class="x">x</span>,<span class="y">y</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="x">x</span> <span class="x">x</span></div>
+        <div><span class="y">y</span> <span class="x">x</span> <span class="y">y</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+      </div>
+      <div id="graph2" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 3: <br><br>      
+        <div>
+          [[<span class="x">0</span>,<span class="x">0</span>], [<span class="y">1</span>,<span class="x">0</span>]]
+        </div>
+        <div>
+          [[<span class="x">x</span>,<span class="x">x</span>], [<span class="y">y</span>,<span class="x">x</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="x">x</span> <span class="x">x</span></div>
+        <div><span class="y">y</span> <span class="y">y</span> <span class="x">x</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+      </div>
+      <div id="graph3" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 4: <br><br>      
+        <div>
+          [[<span class="x">0</span>,<span class="x">0</span>], [<span class="y">1</span>,<span class="y">1</span>]]
+        </div>
+        <div>
+          [[<span class="x">x</span>,<span class="x">x</span>], [<span class="y">y</span>,<span class="y">y</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="x">x</span> <span class="x">x</span></div>
+        <div><span class="y">y</span> <span class="y">y</span> <span class="y">y</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+      </div>
+      <div id="graph4" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 5: <br><br>      
+        <div>
+          [[<span class="x">0</span>,<span class="y">1</span>], [<span class="x">0</span>,<span class="x">0</span>]]
+        </div>
+        <div>
+          [[<span class="x">x</span>,<span class="y">y</span>], [<span class="x">x</span>,<span class="x">x</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="y">y</span> <span class="x">x</span> <span class="x">x</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+      </div>
+      <div id="graph5" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 6: <br><br>      
+        <div>
+          [[<span class="x">0</span>,<span class="y">1</span>], [<span class="x">0</span>,<span class="y">1</span>]]
+        </div>
+        <div>
+          [[<span class="x">x</span>,<span class="y">y</span>], [<span class="x">x</span>,<span class="y">y</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="y">y</span> <span class="x">x</span> <span class="y">y</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+      </div>
+      <div id="graph6" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 7: <br><br>      
+        <div>
+          [[<span class="x">0</span>,<span class="y">1</span>], [<span class="y">1</span>,<span class="x">0</span>]]
+        </div>
+        <div>
+          [[<span class="x">x</span>,<span class="y">y</span>], [<span class="y">y</span>,<span class="x">x</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="y">y</span> <span class="y">y</span> <span class="x">x</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+      </div>
+      <div id="graph7" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 8: <br><br>      
+        <div>
+          [[<span class="x">0</span>,<span class="y">1</span>], [<span class="y">1</span>,<span class="y">1</span>]]
+        </div>
+        <div>
+          [[<span class="x">x</span>,<span class="y">y</span>], [<span class="y">y</span>,<span class="y">y</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="y">y</span> <span class="y">y</span> <span class="y">y</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+      </div>
+      <div id="graph8" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 9: <br><br>      
+        <div>
+          [[<span class="y">1</span>,<span class="x">0</span>], [<span class="x">0</span>,<span class="x">0</span>]]
+        </div>
+        <div>
+          [[<span class="y">y</span>,<span class="x">x</span>], [<span class="x">x</span>,<span class="x">x</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="y">y</span> <span class="x">x</span></div>
+        <div><span class="y">y</span> <span class="x">x</span> <span class="x">x</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+      </div>
+      <div id="graph9" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 10: <br><br>      
+        <div>
+          [[<span class="y">1</span>,<span class="x">0</span>], [<span class="x">0</span>,<span class="y">1</span>]]
+        </div>
+        <div>
+          [[<span class="y">y</span>,<span class="x">x</span>], [<span class="x">x</span>,<span class="y">y</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="y">y</span> <span class="x">x</span></div>
+        <div><span class="y">y</span> <span class="x">x</span> <span class="y">y</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+      </div>
+      <div id="graph10" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 11: <br><br>      
+        <div>
+          [[<span class="y">1</span>,<span class="x">0</span>], [<span class="y">1</span>,<span class="x">0</span>]]
+        </div>
+        <div>
+          [[<span class="y">y</span>,<span class="x">x</span>], [<span class="y">y</span>,<span class="x">x</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="y">y</span> <span class="x">x</span></div>
+        <div><span class="y">y</span> <span class="y">y</span> <span class="x">x</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+      </div>
+      <div id="graph11" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 12: <br><br>      
+        <div>
+          [[<span class="y">1</span>,<span class="x">0</span>], [<span class="y">1</span>,<span class="y">1</span>]]
+        </div>
+        <div>
+          [[<span class="y">y</span>,<span class="x">x</span>], [<span class="y">y</span>,<span class="y">y</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="y">y</span> <span class="x">x</span></div>
+        <div><span class="y">y</span> <span class="y">y</span> <span class="y">y</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+      </div>
+      <div id="graph12" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 13: <br><br>      
+        <div>
+          [[<span class="y">1</span>,<span class="y">1</span>], [<span class="x">0</span>,<span class="x">0</span>]]
+        </div>
+        <div>
+          [[<span class="y">y</span>,<span class="y">y</span>], [<span class="x">x</span>,<span class="x">x</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="y">y</span> <span class="y">y</span></div>
+        <div><span class="y">y</span> <span class="x">x</span> <span class="x">x</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+      </div>
+      <div id="graph13" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 14: <br><br>      
+        <div>
+          [[<span class="y">1</span>,<span class="y">1</span>], [<span class="x">0</span>,<span class="y">1</span>]]
+        </div>
+        <div>
+          [[<span class="y">y</span>,<span class="y">y</span>], [<span class="x">x</span>,<span class="y">y</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="y">y</span> <span class="y">y</span></div>
+        <div><span class="y">y</span> <span class="x">x</span> <span class="y">y</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="x">x</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+      </div>
+      <div id="graph14" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 15: <br><br>      
+        <div>
+          [[<span class="y">1</span>,<span class="y">1</span>], [<span class="y">1</span>,<span class="x">0</span>]]
+        </div>
+        <div>
+          [[<span class="y">y</span>,<span class="y">y</span>], [<span class="y">y</span>,<span class="x">x</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="y">y</span> <span class="y">y</span></div>
+        <div><span class="y">y</span> <span class="y">y</span> <span class="x">x</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="x">x</span></div>
+      </div>
+      <div id="graph15" class="graph-container"></div>
+    </div>
+
+    <div class="legend-graph-container">
+      <div class="legend">
+        Graph 16: <br><br>      
+        <div>
+          [[<span class="y">1</span>,<span class="y">1</span>], [<span class="y">1</span>,<span class="y">1</span>]]
+        </div>
+        <div>
+          [[<span class="y">y</span>,<span class="y">y</span>], [<span class="y">y</span>,<span class="y">y</span>]]
+        </div><br>
+      
+        <div>◇ <span class="x">x</span> <span class="y">y</span></div>
+        <div><span class="x">x</span> <span class="y">y</span> <span class="y">y</span></div>
+        <div><span class="y">y</span> <span class="y">y</span> <span class="y">y</span></div><br>
+      
+        <div><span class="x">x</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="x">x</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="x">x</span> = <span class="y">y</span></div>
+        <div><span class="y">y</span> ◇ <span class="y">y</span> = <span class="y">y</span></div>
+      </div>
+      <div id="graph16" class="graph-container"></div>
+    </div>
+  </div>
+
+  <script>
+
+    // Function to initialize a Cytoscape instance for each div
+    function initGraph(containerId, elements) {
+        cytoscape({
+            container: document.getElementById(containerId),
+            elements: elements,
+            style: [
+                {
+                    selector: 'node[label = "x"]',
+                    style: { 
+                      'background-color': '#FF5733',
+                      'label': 'data(label)',
+                      'text-valign': 'center',
+                      'text-halign': 'center'
+
+                    }
+                },
+                {
+                    selector: 'node[label = "y"]',
+                    style: { 
+                      'background-color': '#33FF57',
+                      'label': 'data(label)',
+                      'text-valign': 'center',
+                      'text-halign': 'center'
+
+                    }
+                },
+                {
+                    selector: 'edge[label = "x"]', // Edge labeled "x"
+                    style: { 
+                        'width': 2, 
+                        'line-color': '#FF5733', // Red color for "x" edges
+                        'target-arrow-color': '#FF5733', 
+                        'target-arrow-shape': 'triangle',
+                        'label': 'data(label)',
+                        'curve-style': 'bezier'
+                    }
+                },
+                {
+                    selector: 'edge[label = "y"]', // Edge labeled "y"
+                    style: { 
+                        'width': 2, 
+                        'line-color': '#33FF57', // Green color for "y" edges
+                        'target-arrow-color': '#33FF57', 
+                        'target-arrow-shape': 'triangle',
+                        'label': 'data(label)',
+                        'curve-style': 'bezier'
+                    }
+                }
+            ],
+            layout: { 
+                name: 'grid',
+                rows: 1 // Ensures nodes are placed in a single horizontal row
+            }
+        });
+    }
+
+    // Explicit edge definitions for each of the 16 graphs
+    const sampleData = [
+        // Graph 1 (binary 0000): 
+        // [[0,0], [0,0]] 
+        // [[x,x], [x,x]]
+        // ◇ x y 
+        // x x x
+        // y x x 
+        [
+            { data: { id: 'x0', label: 'x' } },
+            { data: { id: 'y0', label: 'y' } },
+            { data: { id: 'x0_op_x0', source: 'x0', label: 'x', target: 'x0' } }, // x ◇ x = x
+            { data: { id: 'x0_op_y0', source: 'x0', label: 'y', target: 'x0' } }, // x ◇ y = x
+            { data: { id: 'y0_op_x0', source: 'y0', label: 'x', target: 'x0' } }, // y ◇ x = x
+            { data: { id: 'y0_op_y0', source: 'y0', label: 'y', target: 'x0' } }  // y ◇ y = x
+        ],
+
+        // Graph 2 (binary 0001): 
+        //  [[0,0], [0,1]]
+        //  [[x,x], [x,y]]   
+        //  ◇ x y
+        //  x x x
+        //  y x y 	
+        [
+            { data: { id: 'x1', label: 'x' } },
+            { data: { id: 'y1', label: 'y' } },
+            { data: { id: 'x1_op_x1', source: 'x1', label: 'x', target: 'x1' } }, //  x ◇ x = x
+            { data: { id: 'x1_op_y1', source: 'x1', label: 'y', target: 'x1' } }, //  x ◇ y = x
+            { data: { id: 'y1_op_x1', source: 'y1', label: 'x', target: 'x1' } }, //  y ◇ x = x
+            { data: { id: 'y1_op_y1', source: 'y1', label: 'y', target: 'y1' } }  //  y ◇ y = y
+        ],
+
+        // Graph 3 (binary 0010):
+        // [[0,0], [1,0]]
+        // [[x,x], [y,x]]      
+        // ◇ x y
+        // x x x
+        // y y x 
+        [
+            { data: { id: 'x2', label: 'x' } },
+            { data: { id: 'y2', label: 'y' } },
+            { data: { id: 'x2_op_x2', source: 'x2', label: 'x', target: 'x2' } }, // x ◇ x = x
+            { data: { id: 'x2_op_y2', source: 'x2', label: 'y', target: 'x2' } }, // x ◇ y = x
+            { data: { id: 'y2_op_x2', source: 'y2', label: 'x', target: 'y2' } }, // y ◇ x = y
+            { data: { id: 'y2_op_y2', source: 'y2', label: 'y', target: 'x2' } }  // y ◇ y = x
+        ],
+
+        // Graph 4 (binary 0011):
+        // [[0,0], [1,1]]
+        // [[x,x], [y,y]]
+        // ◇ x y
+        // x x x
+        // y y y 
+        [
+            { data: { id: 'x3', label: 'x' } },
+            { data: { id: 'y3', label: 'y' } },
+            { data: { id: 'x3_op_x3', source: 'x3', label: 'x', target: 'x3' } },  // x ◇ x = x
+            { data: { id: 'x3_op_y3', source: 'x3', label: 'y', target: 'x3' } },  // x ◇ y = x
+            { data: { id: 'y3_op_x3', source: 'y3', label: 'x', target: 'y3' } },  // y ◇ x = y
+            { data: { id: 'y3_op_y3', source: 'y3', label: 'y', target: 'y3' } }   // y ◇ y = y
+        ],
+        
+        // Graph 5 (binary 0100):
+        // [[0,1], [0,0]]
+        // [[x,y], [x,x]]
+        // ◇ x y
+        // x x y
+        // y x x 
+        [
+            { data: { id: 'x4', label: 'x' } },
+            { data: { id: 'y4', label: 'y' } },
+            { data: { id: 'x4_op_x4', source: 'x4', label: 'x' , target: 'x4'} }, // x ◇ x = x
+            { data: { id: 'x4_op_y4', source: 'x4', label: 'y' , target: 'y4'} }, // x ◇ y = y
+            { data: { id: 'y4_op_x4', source: 'y4', label: 'x' , target: 'x4'} }, // y ◇ x = x
+            { data: { id: 'y4_op_y4', source: 'y4', label: 'y' , target: 'x4'} }  // y ◇ y = x
+        ],
+        
+        // Graph 6 (binary 0101):
+        // [[0,1], [0,1]]
+        // [[x,y], [x,y]]
+        // ◇ x y
+        // x x y
+        // y x y 
+        [
+            { data: { id: 'x5', label: 'x' } },
+            { data: { id: 'y5', label: 'y' } },
+            { data: { id: 'x5_op_x5', source: 'x5', label: 'x', target: 'x5' } }, // x ◇ x = x
+            { data: { id: 'x5_op_y5', source: 'x5', label: 'y', target: 'y5' } }, // x ◇ y = y
+            { data: { id: 'y5_op_x5', source: 'y5', label: 'x', target: 'x5' } }, // y ◇ x = x
+            { data: { id: 'y5_op_y5', source: 'y5', label: 'y', target: 'y5' } }  // y ◇ y = y
+        ],
+        
+        // Graph 7 (binary 0110):
+        // [[0,1], [1,0]]
+        // [[x,y], [y,x]]
+        // ◇ x y
+        // x x y
+        // y y x
+        [
+            { data: { id: 'x6', label: 'x' } },
+            { data: { id: 'y6', label: 'y' } },
+            { data: { id: 'x6_op_x6', source: 'x6', label: 'x', target: 'x6' } }, // x ◇ x = x
+            { data: { id: 'x6_op_y6', source: 'x6', label: 'y', target: 'y6' } }, // x ◇ y = y
+            { data: { id: 'y6_op_x6', source: 'y6', label: 'x', target: 'y6' } }, // y ◇ x = y
+            { data: { id: 'y6_op_y6', source: 'y6', label: 'y', target: 'x6' } }  // y ◇ y = x
+        ],
+        
+        // Graph 8 (binary 0111):
+        // [[0,1], [1,1]]
+        // [[x,y], [y,y]]
+        // ◇ x y
+        // x x y
+        // y y y
+        [
+            { data: { id: 'x7', label: 'x' } },
+            { data: { id: 'y7', label: 'y' } },
+            { data: { id: 'x7_op_x7', source: 'x7', label: 'x', target: 'x7' } }, // x ◇ x = x
+            { data: { id: 'x7_op_y7', source: 'x7', label: 'y', target: 'y7' } }, // x ◇ y = y
+            { data: { id: 'y7_op_x7', source: 'y7', label: 'x', target: 'y7' } }, // y ◇ x = y
+            { data: { id: 'y7_op_y7', source: 'y7', label: 'y', target: 'y7' } }  // y ◇ y = y
+        ],
+        
+        // Graph 9 (binary 1000):
+        // [[1,0], [0,0]]
+        // [[y,x], [x,x]]
+        // ◇ x y
+        // x y x
+        // y x x
+        [
+            { data: { id: 'x8', label: 'x' } },
+            { data: { id: 'y8', label: 'y' } },
+            { data: { id: 'x8_op_x8', source: 'x8', label: 'x', target: 'y8' } }, // x ◇ x = y
+            { data: { id: 'x8_op_y8', source: 'x8', label: 'y', target: 'x8' } }, // x ◇ y = x
+            { data: { id: 'y8_op_x8', source: 'y8', label: 'x', target: 'x8' } }, // y ◇ x = x
+            { data: { id: 'y8_op_y8', source: 'y8', label: 'y', target: 'x8' } }  // y ◇ y = x
+        ],
+        
+        // Graph 10 (binary 1001):
+        // [[1,0], [0,1]]
+        // [[y,x], [x,y]]
+        // ◇ x y
+        // x y x
+        // y x y
+        [
+            { data: { id: 'x9', label: 'x' } },
+            { data: { id: 'y9', label: 'y' } },
+            { data: { id: 'x9_op_x9', source: 'x9', label: 'x', target: 'y9' } }, // x ◇ x = y
+            { data: { id: 'x9_op_y9', source: 'x9', label: 'y', target: 'x9' } }, // x ◇ y = x
+            { data: { id: 'y9_op_x9', source: 'y9', label: 'x', target: 'x9' } }, // y ◇ x = x
+            { data: { id: 'y9_op_y9', source: 'y9', label: 'y', target: 'y9' } }  // y ◇ y = y
+        ],
+        
+        // Graph 11 (binary 1010):
+        // [[1,0], [1,0]]
+        // [[y,x], [y,x]]
+        // ◇ x y
+        // x y x
+        // y y x
+        [
+            { data: { id: 'x10', label: 'x' } },
+            { data: { id: 'y10', label: 'y' } },
+            { data: { id: 'x10_op_x10', source: 'x10', label: 'x', target: 'y10' } }, // x ◇ x = y
+            { data: { id: 'x10_op_y10', source: 'x10', label: 'y', target: 'x10' } }, // x ◇ y = x
+            { data: { id: 'y10_op_x10', source: 'y10', label: 'x', target: 'y10' } }, // y ◇ x = y
+            { data: { id: 'y10_op_y10', source: 'y10', label: 'y', target: 'x10' } }  // y ◇ y = x
+        ],
+        
+        // Graph 12 (binary 1011):
+        // [[1,0], [1,1]]
+        // [[y,x], [y,y]]
+        // ◇ x y
+        // x y x
+        // y y y
+        [
+            { data: { id: 'x11', label: 'x' } },
+            { data: { id: 'y11', label: 'y' } },
+            { data: { id: 'x11_op_x11', source: 'x11', label: 'x', target: 'y11' } }, // x ◇ x = y
+            { data: { id: 'x11_op_y11', source: 'x11', label: 'y', target: 'x11' } }, // x ◇ y = x
+            { data: { id: 'y11_op_x11', source: 'y11', label: 'x', target: 'y11' } }, // y ◇ x = y
+            { data: { id: 'y11_op_y11', source: 'y11', label: 'y', target: 'y11' } }  // y ◇ y = y
+        ],
+        
+        // Graph 13 (binary 1100):
+        // [[1,1], [0,0]]
+        // [[y,y], [x,x]]
+        // ◇ x y
+        // x y y
+        // y x x
+        [
+            { data: { id: 'x12', label: 'x' } },
+            { data: { id: 'y12', label: 'y' } },
+            { data: { id: 'x12_op_x12', source: 'x12', label: 'x', target: 'y12' } }, // x ◇ x = y
+            { data: { id: 'x12_op_y12', source: 'x12', label: 'y', target: 'y12' } }, // x ◇ y = y
+            { data: { id: 'y12_op_x12', source: 'y12', label: 'x', target: 'x12' } }, // y ◇ x = x
+            { data: { id: 'y12_op_y12', source: 'y12', label: 'y', target: 'x12' } }  // y ◇ y = x
+        ],
+        
+        // Graph 14 (binary 1101):
+        // [[1,1], [0,1]]
+        // [[y,y], [x,y]]
+        // ◇ x y
+        // x y y
+        // y x y
+        [
+            { data: { id: 'x13', label: 'x' } },
+            { data: { id: 'y13', label: 'y' } },
+            { data: { id: 'x13_op_x13', source: 'x13', label: 'x', target: 'y13' } }, // x ◇ x = y
+            { data: { id: 'x13_op_y13', source: 'x13', label: 'y', target: 'y13' } }, // x ◇ y = y
+            { data: { id: 'y13_op_x13', source: 'y13', label: 'x', target: 'x13' } }, // y ◇ x = x
+            { data: { id: 'y13_op_y13', source: 'y13', label: 'y', target: 'y13' } }  // y ◇ y = y
+        ],
+        
+        // Graph 15 (binary 1110):
+        // [[1,1], [1,0]]
+        // [[y,y], [y,x]]
+        // ◇ x y
+        // x y y
+        // y y x
+        [
+            { data: { id: 'x14', label: 'x' } },
+            { data: { id: 'y14', label: 'y' } },
+            { data: { id: 'x14_op_x14', source: 'x14', label: 'x', target: 'y14' } }, // x ◇ x = y
+            { data: { id: 'x14_op_y14', source: 'x14', label: 'y', target: 'y14' } }, // x ◇ y = y
+            { data: { id: 'y14_op_x14', source: 'y14', label: 'x', target: 'y14' } }, // y ◇ x = y
+            { data: { id: 'y14_op_y14', source: 'y14', label: 'y', target: 'x14' } }  // y ◇ y = x
+        ],
+        
+        // Graph 16 (binary 1111):
+        // [[1,1], [1,1]]
+        // [[y,y], [y,y]]
+        // ◇ x y
+        // x y y
+        // y y y
+        [
+            { data: { id: 'x15', label: 'x' } },
+            { data: { id: 'y15', label: 'y' } },
+            { data: { id: 'x15_op_x15', source: 'x15', label: 'x', target: 'y15' } }, // x ◇ x = y
+            { data: { id: 'x15_op_y15', source: 'x15', label: 'y', target: 'y15' } }, // x ◇ y = y
+            { data: { id: 'y15_op_x15', source: 'y15', label: 'x', target: 'y15' } }, // y ◇ x = y
+            { data: { id: 'y15_op_y15', source: 'y15', label: 'y', target: 'y15' } }  // y ◇ y = y
+        ]
+    ];
+
+    // Initialize each graph with a unique container and data
+    for (let i = 1; i <= 16; i++) {
+        initGraph(`graph${i}`, sampleData[i - 1] || []);
+    }
+
+  </script>
+
+</body>
+</html>
