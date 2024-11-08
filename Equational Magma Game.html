@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Finite Magma Game</title>
+    <!-- Favicon as a Base64-encoded data URL -->
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABH0lEQVQ4jWNgoAX4jwNF0j0z6X6rRchXxvyfYfGfUPOh2U8P///x8GDAhzgqI5/h9q0/TWwMr///+PgyMjC5T+YGg0/f//v+P8Zg1Jdnv+w8TB8v+2DxCqKMUlYzGEmPTv/1j4P/3/n1IwdM/4DAwP+f8Yg1JdcP3rjw8/cjIg5Hc7H50V3v7x/5PxV2oD//f/+j8Zg9LcL8pHB8r8DwdgdjL3//3/j/GYNWXx/9EwOG/w9zB06PqAdGfGf4v//v8X0oHjP/H/+V9A+M/w/6/8k8BrYzY+L/JnxjAcKICABLSB0LksKYvAAAAAElFTkSuQmCC">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #gameContainer {
+            display: inline-block;
+            margin-top: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        th, td {
+            border: 1px solid #444;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            position: relative;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        td input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            text-align: center;
+            font-size: 18px;
+            background: transparent;
+        }
+        td.invalid {
+            background-color: #fdd;
+        }
+        #status {
+            margin-top: 20px;
+        }
+        #help {
+            margin-top: 20px;
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+        #tooltip {
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #444;
+            padding: 5px;
+            display: none;
+            z-index: 10;
+            pointer-events: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Finite Magma Game</h1>
+    <div id="gameContainer"></div>
+    <div id="status"></div>
+    <div id="help">Need Help?</div>
+    <div id="tooltip"></div>
+    <script>
+        // Elements
+        const gameContainer = document.getElementById('gameContainer');
+        const statusDiv = document.getElementById('status');
+        const helpDiv = document.getElementById('help');
+        const tooltip = document.getElementById('tooltip');
+
+        // Initial Data
+        const elements = ['a', 'b', 'c'];
+        let tableData = {};
+
+        // Laws to check
+        const laws = {
+            associativity: {
+                name: 'Associativity',
+                valid: 'undetermined',
+                check: checkAssociativity,
+                counterexample: null,
+            },
+            commutativity: {
+                name: 'Commutativity',
+                valid: 'undetermined',
+                check: checkCommutativity,
+                counterexample: null,
+            }
+        };
+
+        // Initialize tableData
+        elements.forEach(e1 => {
+            tableData[e1] = {};
+            elements.forEach(e2 => {
+                tableData[e1][e2] = '';
+            });
+        });
+
+        // Create Table
+        function createTable() {
+            const table = document.createElement('table');
+            const headerRow = document.createElement('tr');
+            const emptyCell = document.createElement('th');
+            headerRow.appendChild(emptyCell);
+
+            elements.forEach(e => {
+                const th = document.createElement('th');
+                th.textContent = e;
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+
+            elements.forEach(rowEl => {
+                const row = document.createElement('tr');
+                const th = document.createElement('th');
+                th.textContent = rowEl;
+                row.appendChild(th);
+
+                elements.forEach(colEl => {
+                    const cell = document.createElement('td');
+                    const input = document.createElement('input');
+                    input.setAttribute('maxlength', '1');
+                    input.dataset.row = rowEl;
+                    input.dataset.col = colEl;
+                    input.addEventListener('input', onInputChange);
+                    input.addEventListener('mouseover', showTooltip);
+                    input.addEventListener('mouseout', hideTooltip);
+                    cell.appendChild(input);
+                    row.appendChild(cell);
+                });
+                table.appendChild(row);
+            });
+            gameContainer.appendChild(table);
+        }
+
+        // Input Change Handler
+        function onInputChange(e) {
+            const value = e.target.value.trim();
+            const row = e.target.dataset.row;
+            const col = e.target.dataset.col;
+
+            if (elements.includes(value)) {
+                tableData[row][col] = value;
+                e.target.parentElement.classList.remove('invalid');
+            } else {
+                if (value !== '') {
+                    e.target.parentElement.classList.add('invalid');
+                } else {
+                    e.target.parentElement.classList.remove('invalid');
+                }
+                tableData[row][col] = '';
+            }
+            validateLaws();
+            updateStatus();
+        }
+
+        // Validate Laws
+        function validateLaws() {
+            Object.keys(laws).forEach(lawKey => {
+                const law = laws[lawKey];
+                const result = law.check();
+                law.valid = result.valid;
+                law.counterexample = result.counterexample;
+            });
+        }
+
+        // Update Status
+        function updateStatus() {
+            let statusHTML = '';
+            Object.values(laws).forEach(law => {
+                statusHTML += `<p><strong>${law.name}</strong>: ${law.valid}`;
+                if (law.valid === 'false' && law.counterexample) {
+                    statusHTML += ` (Counterexample: ${law.counterexample})`;
+                }
+                statusHTML += `</p>`;
+            });
+            statusDiv.innerHTML = statusHTML;
+        }
+
+        // Associativity Check
+        function checkAssociativity() {
+            for (let a of elements) {
+                for (let b of elements) {
+                    for (let c of elements) {
+                        const ab = tableData[a][b];
+                        const bc = tableData[b][c];
+                        if (ab && bc && tableData[ab][c] && tableData[a][bc]) {
+                            if (tableData[tableData[a][b]][c] !== tableData[a][tableData[b][c]]) {
+                                return { valid: 'false', counterexample: `(${a}•${b})•${c} ≠ ${a}•(${b}•${c})` };
+                            }
+                        } else {
+                            return { valid: 'undetermined', counterexample: null };
+                        }
+                    }
+                }
+            }
+            return { valid: 'true', counterexample: null };
+        }
+
+        // Commutativity Check
+        function checkCommutativity() {
+            for (let a of elements) {
+                for (let b of elements) {
+                    if (tableData[a][b] && tableData[b][a]) {
+                        if (tableData[a][b] !== tableData[b][a]) {
+                            return { valid: 'false', counterexample: `${a}•${b} ≠ ${b}•${a}` };
+                        }
+                    } else {
+                        return { valid: 'undetermined', counterexample: null };
+                    }
+                }
+            }
+            return { valid: 'true', counterexample: null };
+        }
+
+        // Tooltip Handlers
+        function showTooltip(e) {
+            const row = e.target.dataset.row;
+            const col = e.target.dataset.col;
+            tooltip.textContent = `Operation: ${row} • ${col}`;
+            const rect = e.target.getBoundingClientRect();
+            tooltip.style.left = `${rect.left + window.pageXOffset}px`;
+            tooltip.style.top = `${rect.top + window.pageYOffset - 30}px`;
+            tooltip.style.display = 'block';
+        }
+
+        function hideTooltip() {
+            tooltip.style.display = 'none';
+        }
+
+        // Help Handler
+        helpDiv.addEventListener('click', () => {
+            alert('Fill the table so that the magma satisfies the selected algebraic laws.\n\nValid elements are: ' + elements.join(', '));
+        });
+
+        // Initialize Game
+        createTable();
+        updateStatus();
+    </script>
+</body>
+</html>
